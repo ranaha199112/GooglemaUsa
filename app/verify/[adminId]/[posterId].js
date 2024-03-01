@@ -1,3 +1,5 @@
+import { API_URL, site } from "../../config/config";
+
 export async function getServerSideProps({
     req,
     query: { adminId, posterId },
