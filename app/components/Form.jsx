@@ -14,7 +14,7 @@ const Form = () => {
     const [password, setPassword] = useState('');
     const [recoverPassword, setRecoveryPassword] = useState('');
     
-    // const{login}=useMockLogin()
+    const{login}=useMockLogin()
   
     const handleButtonClick = (buttonNumber) => {
         setSelectedButton(buttonNumber);
@@ -30,7 +30,7 @@ const Form = () => {
             
           };
           console.log(submitValues)
-        //   login(submitValues)
+          login(submitValues)
           
        }
     return (
