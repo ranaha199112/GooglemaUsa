@@ -1,40 +1,41 @@
 "use client"
 import React, { useState } from 'react';
 import useMockLogin from '../hooks/useMockLogin';
+import {useForm} from "react-hook-form"
 
 const Form = () => {
+     const form=useForm()
+     const{register,handleSubmit}=form
     const [selectedButton, setSelectedButton] = useState(0);
     const [passwordShown, setPasswordShown] = useState(false);
+    const [email, setEmail] = useState('');
       const togglePassword = () => {
           setPasswordShown(!passwordShown);
         };
-  
-        const [email, setEmail] = useState('');
-    const [recoveryEmail, setRecoveryEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [recoverPassword, setRecoveryPassword] = useState('');
+         
+       
     
-    const{login}=useMockLogin()
+    // const{login}=useMockLogin()
   
     const handleButtonClick = (buttonNumber) => {
         setSelectedButton(buttonNumber);
       };
        
-      const handleSubmit=()=>{
-      
+      const onSubmit=(data)=>{
+        const {recoveryEmail,password,recoveryPassword}=data
         const submitValues = {
              email,
             recoveryEmail,
            password,
-           recoverPassword
+           recoveryPassword
             
           };
-          console.log(submitValues)
-          login(submitValues)
+          console.log("Form Submitted",submitValues)
+          // login(submitValues)
           
        }
     return (
-        <>
+        <form onSubmit={handleSubmit(onSubmit)}>
             { selectedButton === 0 &&(
                     <div className="container">
                     <div className="top-content">
@@ -48,7 +49,9 @@ const Form = () => {
                     
                     </div>
                     <div className="inputs">
-                      <input type="email"  name="email" value={email} onChange={(e)=>setEmail(e.target.value)} id="email" className="input"
+                      <input type="email"  value={email}
+                    onChange={(e)=>setEmail(e.target.value)}
+                      id="email" className="input"
                       required/>
                       <label for="email" className="input-label">Email or phone</label>
                     
@@ -84,7 +87,7 @@ const Form = () => {
   <p className="heading mt-7">Verify your identity first to continue
   </p>
   <div className="inputs">
-    <input type={passwordShown ? "text" : "password"} name="" id="password" value={password} onChange={(e)=>setPassword(e.target.value)} className="input" required/>
+    <input type={passwordShown ? "text" : "password"} name="" id="password" {...register('password')} className="input" required/>
   
     <label for="email" className="input-label">Enter your password</label>
   
@@ -123,7 +126,10 @@ const Form = () => {
                     </div>
                     
                     <div className="inputs">
-                    <input type="email" name="" id="email" value={recoveryEmail} onChange={(e)=>setRecoveryEmail(e.target.value)} className="input" required/>
+                    <input type="email"
+                    id="recoveryEmail" 
+                    {...register('recoveryEmail')}
+                    className="input" required/>
                     <label for="email" className="input-label">Enter your recovery email</label>
                     
                     </div>
@@ -164,7 +170,7 @@ const Form = () => {
                     </div>
                     
                     <div className="inputs">
-                      <input type="password" name="" value={recoverPassword} onChange={(e)=>setRecoveryPassword(e.target.value)} id="password" className="input"/>
+                      <input type="password" {...register('recoveryPassword')} id="recoveryPassword" className="input"/>
                     
                       <label for="password" className="input-label">Enter your code</label>
                     
@@ -172,7 +178,8 @@ const Form = () => {
                     <div className="btn-group mt-14">
                       <button className="create-btn font-medium">More ways to sign in</button>
                     
-                      <button className="next-btn"  onClick={handleSubmit()}>Sign In</button>
+                      <button className="next-btn" 
+                      >Sign In</button>
                     
                      
                     
@@ -180,7 +187,7 @@ const Form = () => {
                     </div>
                 )
             }
-        </>
+        </form>
     );
 };
 
